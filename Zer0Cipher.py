@@ -1,33 +1,29 @@
 import os
 import pyAesCrypt
 
-
-class Locker:
-
+class Cg:
     def __init__(self):
         self.dir = os.getcwd()
         self.password = ''
         self.action = ''
         self.exception_file = "Zer0Cipher.exe"
+        print(self.exception_file)
         self.chooseAnAction()
         self.checkPassword()
 
     def crypt(self, file):
         buffer_size = 512*1024
         pyAesCrypt.encryptFile(str(file), str(file) + ".crp", self.password, buffer_size)
-        print("[Encrypt] '"+str(file)+".crp'")
+        print("[Encrypted] '" + os.path.basename(file) +".crp'")
         os.remove(file)
 
     def decrypt(self, file):
-
         buffer_size = 512 * 1024
         pyAesCrypt.decryptFile(str(file), str(os.path.splitext(file)[0]), self.password, buffer_size)
-        print("[Decrypt] '" + str(os.path.splitext(file)[0]) + "'")
+        print("[Decrypted] '" + os.path.basename(file) + "'")
         os.remove(file)    
 
     def run(self):
-
-        
         for name in os.listdir(self.dir):
             if name == self.exception_file:
                 continue
@@ -40,7 +36,6 @@ class Locker:
                         self.decrypt(path)
                     except:
                         print("Wrong Password")
-
             else:
                 main_dir = self.dir
                 self.dir = path
@@ -69,5 +64,9 @@ class Locker:
             return self.checkPassword()
 
 if __name__ == "__main__":
-    lk = Locker()
-    lk.run()
+    #print(__file__)
+    #print(os.path.basename(__file__))
+    
+    cg = Cg()
+    
+    cg.run()
